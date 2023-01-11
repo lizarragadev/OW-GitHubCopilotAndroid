@@ -3,7 +3,6 @@ package dev.lizarraga.githubcopilotdemo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,10 +10,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -33,72 +31,82 @@ class MainActivity : ComponentActivity() {
     // create a Speaker data class with a name, company and url image
     data class Speaker(val name: String, val company: String, val imageUrl: String)
 
-    // add a list of speakers
-    val speakers = listOf<Speaker>(
-        Speaker("Gustavo Lizarraga", "Openwebinars", "https://avatars.githubusercontent.com/u/1018365?v=4"),
-        Speaker("Juan Salgado", "Platzi", "https://avatars.githubusercontent.com/u/1018365?v=4"),
-        Speaker("Pedro Lopez", "Google", "https://avatars.githubusercontent.com/u/1018365?v=4")
-    )
+    // create a list of speakers from OpenWebinars Company
+    val speakers = listOf(
+        Speaker("Gustavo Lizárraga", "OpenWebinars", "https://avatars.githubusercontent.com/u/1924390"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("Miguel Ángel de la Cruz", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"),
+        Speaker("David Gómez", "OpenWebinars", "https://avatars.githubusercontent.com/u/1018545"))
 
+    // create a SpeakerItem composable function
     @Composable
     fun SpeakerItem(speaker: Speaker) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp),
-            elevation = 6.dp,
-            shape = RoundedCornerShape(10.dp)
+                .padding(8.dp)
+                .fillMaxWidth(),
+            elevation = 8.dp,
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Row {
-                // Add AsyncImage from Coil
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // add AsyncImage from Coil
                 AsyncImage(
                     model = speaker.imageUrl,
-                    contentDescription = "Speaker image",
+                    contentDescription = "speaker image",
                     modifier = Modifier
+                        .padding(8.dp)
                         .size(70.dp)
-                        .clip(CircleShape)
+                        .clip(CircleShape),
                 )
-                // create a Column with the speaker name and company
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 8.dp),
+                        .padding(start = 8.dp)
+                        .fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = speaker.name,
-                        style = MaterialTheme.typography.h6
-                    )
-                    Text(
-                        text = speaker.company,
-                        style = MaterialTheme.typography.body2
-                    )
+                    Text(text = speaker.name, style = MaterialTheme.typography.h6)
+                    Text(text = speaker.company, style = MaterialTheme.typography.subtitle2)
                 }
             }
         }
     }
-    
-    // add mainScreen composable
+
+    // add MainScreen composable
     @Composable
     fun MainScreen() {
         // add Scaffold with TopAppBar
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = "GitHub Copilot Demo")
-                    }
-                )
+                TopAppBar(title = { Text("GitHub Copilot Demo") })
             }
         ) {
-            // add LazyColumn with speakers
             LazyColumn {
                 items(speakers) { speaker ->
                     SpeakerItem(speaker = speaker)
                 }
             }
         }
+    }
 
+    @Preview(showBackground = true)
+    @Composable
+    fun DefaultPreview() {
+        GitHubCopilotDemoTheme {
+            MainScreen()
+        }
     }
 
 }
